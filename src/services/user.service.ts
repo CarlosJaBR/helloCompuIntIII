@@ -21,6 +21,14 @@ class UserService {
             throw error;
         }
     }
+    public async findById(id:string): Promise<UserDocument | null>{
+        try{
+            const user = await UserModel.findById(id);
+            return user;
+        }catch(error){
+            throw error;
+        }
+    }
 
     public async create(userInput:UserInput):Promise<UserDocument>{
         try{
@@ -29,6 +37,15 @@ class UserService {
         }catch(error){
             throw error;
         }
+    }
+
+    public async update(id:String,userInput:UserInput):Promise<UserDocument | null>{
+        try{
+            const updatedUser:UserDocument | null = await UserModel.findOneAndUpdate({_id:id},userInput); 
+            return updatedUser;
+        }catch(error){
+            throw error;
+        }   
     }
 } 
 
