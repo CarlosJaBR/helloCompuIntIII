@@ -1,5 +1,8 @@
 import express, {Express,Request,Response} from 'express'
 import dotenv from 'dotenv'
+import {db} from './config/db'
+import { error } from 'console';
+import  routes  from './routes/index';
 
 dotenv.config()
 
@@ -24,12 +27,19 @@ app.post('/about', (req: Request, res: Response) => {
     res.send('name' + req.body.name);
 });
 
+routes(app);
+
+db.then(() => {
+    app.listen(port, () => {
+        console.log(`Server on port ${port}`);
+    });
+}).catch((error)=>console.error(error));
 
 
-
+/*
 app.listen(port, () => {
     console.log("Server on port" + port);
     console.log(`Server on port ${port}` + ` de otra forma`); //esta es otra forma mostrar 
     //información en consola
 });
-
+*/
