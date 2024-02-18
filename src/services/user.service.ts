@@ -41,11 +41,20 @@ class UserService {
 
     public async update(id:String,userInput:UserInput):Promise<UserDocument | null>{
         try{
-            const updatedUser:UserDocument | null = await UserModel.findOneAndUpdate({_id:id},userInput); 
+            const updatedUser:UserDocument | null = await UserModel.findOneAndUpdate({_id:id},userInput,{returnOriginal:false}); 
             return updatedUser;
         }catch(error){
             throw error;
         }   
+    }
+
+    public async delete(id:String):Promise<UserDocument | null>{
+        try{
+            return await UserModel.findByIdAndDelete({_id:id});
+            
+        }catch(error){
+            throw error;
+        }
     }
 } 
 

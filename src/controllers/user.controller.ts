@@ -26,12 +26,8 @@ class UserController {
             return res.status(500).json(error);
         }
     }
-    public async findById(req:Request,res:Response){
-        try{
-            
-        }catch(error){
-            return res.status(500).json(error);
-        }
+    public async login(req:Request,res:Response){
+        
     }
     public async update(req:Request,res:Response){
         try{
@@ -51,7 +47,24 @@ class UserController {
     }
     public async delete(req:Request,res:Response){
         try{
-            
+            const userExist:UserDocument | null = await userService.findById(req.params.id);
+            if(!userExist){
+                return res.status(404).json({message:"User not found"});
+            }
+            const user: UserDocument | null = await userService.delete(req.params.id);
+            return res.status(200).json({message:"User has been deleted"});
+        }catch(error){
+            return res.status(500).json(error);
+        }
+    }
+
+    public async findById(req:Request,res:Response){
+        try{
+            const user = await userService.findById(req.params.id);
+            if(!user){
+                return res.status(404).json({message:"User not found"});
+            }
+            return res.status(200).json(user);
         }catch(error){
             return res.status(500).json(error);
         }
